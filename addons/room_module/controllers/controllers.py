@@ -24,20 +24,23 @@ class RoomModule(http.Controller):
         list_rec = []
         try:
             if "state" in params:
-                if params['state'] not in ['draft','progress','done','cancel']:
+                if params['state'] not in ['draft','progress','done','cancel','']:
                     raise ValidationError(_("Invalid state value provided. Valid values are: draft, progress, done, cancel."))
-                domain = [('state','=',params['state'])]
+                if params['state']!='':
+                    domain = [('state','=',params['state'])]
             if "pemesan" in params:
-                domain += [('pemesan','like','%'+params['pemesan']+'%')]
+                if params['pemesan']!='':
+                    domain += [('pemesan','like','%'+params['pemesan']+'%')]
             if "room" in params:
                 domain += [('room_id.name','like','%'+params['room']+'%')]
             if "reservation_no" in params:
                 domain += [('name','like','%'+params['reservation_no']+'%')]
-            try:
-                reservation_id = int(params['reservation_id'])
-                domain += [('id', '=', reservation_id)]
-            except ValueError:
-                raise ValidationError(_("Reservation ID must be an integer."))
+            if "reservation_id" in params:
+                try:
+                    reservation_id = int(params['reservation_id'])
+                    domain += [('id', '=', reservation_id)]
+                except ValueError:
+                    raise ValidationError(_("Reservation ID must be an integer."))
             if "time" in params:
                 try:
                     time_param = datetime.strptime(params['time'], '%Y-%m-%d %H:%M:%S')
@@ -57,7 +60,8 @@ class RoomModule(http.Controller):
                     'pemesan':record.pemesan,
                     'start_date':record.start_date.strftime('%Y-%m-%d %H:%M:%S'),
                     'end_date':record.end_date.strftime('%Y-%m-%d %H:%M:%S'),
-                    'state':dict(record._fields['state'].selection).get(record.state, '')
+                    'state':dict(record._fields['state'].selection).get(record.state, ''),
+                    'notes':record.notes,
                 })
             result = {'result':list_rec}
         except Exception as e:

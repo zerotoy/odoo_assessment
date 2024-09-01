@@ -86,9 +86,3 @@ class RoomReservation(models.Model):
         if self.state !='draft':
             raise ValidationError("Only draft or On Going reservations can be moved to Cancel.")
         self.state = 'cancel'
-    
-# Add on readme:
-#     mohon maaf jika program yang saya buat tidak sama 100 persen dengan requirement, namun saya menambahkan sedikit improvement terhadap solusi dari masalah yang diberikan
-# perubahan yang diberikan :
-# status pemesanan dapat di cancel jika status pemesanan sedang draft, untuk menangani salah input
-# constraint akan berlaku untuk reservasi dengan status draft, on going, dan done

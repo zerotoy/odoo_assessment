@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: >
+    ## Introduction
+
+    API yang saya sediakan terdapat 2 tipe. API dinamis yang dapat diakses
+    melalui modul eksternal karya Yezileli Ilomo pada
+    https://github.com/yezyilomo/odoo-rest-api. REST-API karya beliau memiliki
+    autentikasi atau middleware untuk melindungi access right odoo di dalamnya.
+    Jadi API ini sangat berguna dan dapat melindungi hak akses model model yang
+    ada di Odoo. Untuk memahami lebih lanjut mengenai expose API ini, bisa
+    kunjungi link github berikut : <br> 
+    https://github.com/yezyilomo/odoo-rest-api <br><br>
+
+    Tipe yang kedua merupakan API yang saya buat secara manual, dan API yang
+    saya buat tidak menggunakan autentikasi atau semacamnya sehingga dapat
+    diakses tanpa melakukan login
+  contact:
+    email: litlefajar@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8069
+tags:
+  - name: manual
+    description: API yang saya buat manual
+paths:
+  /get_reservations:
+    get:
+      summary: Get room reservations
+      description: >-
+        Fetch room reservations based on various filters such as room name,
+        reservation state, time, and the person who booked.
+      parameters:
+        - in: query
+          name: room
+          schema:
+            type: string
+          required: false
+          description: Filter reservations by room name.
+          example: Aula
+        - in: query
+          name: state
+          schema:
+            type: string
+          required: false
+          description: >-
+            Filter reservations by state. Valid values are draft, progress,
+            done, cancel.
+          example: progress
+        - in: query
+          name: time
+          schema:
+            type: string
+            format: date-time
+          required: false
+          description: >-
+            Filter reservations that are active at a specific time. Use format
+            YYYY-MM-DD HH:MM:SS.
+          example: '2024-09-02 16:00:00'
+        - in: query
+          name: pemesan
+          schema:
+            type: string
+          required: false
+          description: Filter reservations by the name of the person who booked.
+          example: Jane Smith
+        - in: query
+          name: reservation_no
+          schema:
+            type: string
+          required: false
+          description: Filter reservations by reservation number.
+          example: ROOM-RES/09/2024/0002
+        - in: query
+          name: reservation_id
+          schema:
+            type: integer
+          required: false
+          description: Filter reservations by reservation ID. Must be an integer.
+          example: 2
+      responses:
+        '200':
+          description: Successful response with a list of room reservations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: The unique identifier for the reservation.
+                          example: 2
+                        res_no:
+                          type: string
+                          description: The reservation number.
+                          example: ROOM-RES/09/2024/0002
+                        room:
+                          type: string
+                          description: The name of the room.
+                          example: Aula Utama
+                        pemesan:
+                          type: string
+                          description: The name of the person who booked.
+                          example: Jane Smith
+                        start_date:
+                          type: string
+                          format: date-time
+                          description: >-
+                            The start date and time of the reservation. Use
+                            format YYYY-MM-DD HH:MM:SS.
+                          example: '2024-09-02 09:00:00'
+                        end_date:
+                          type: string
+                          format: date-time
+                          description: >-
+                            The end date and time of the reservation. Use format
+                            YYYY-MM-DD HH:MM:SS.
+                          example: '2024-09-02 17:00:00'
+                        state:
+                          type: string
+                          description: The state of the reservation.
+                          example: On Going
+        '400':
+          description: Invalid input or time format error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: >-
+                      Invalid state value provided. Valid values are: draft,
+                      progress, done, cancel.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: Internal Server Error
