@@ -22,7 +22,7 @@ Cara install dan menjalankan:
     Setelah menambahkan addons yang telah dikostumisasi, maka jalankan aplikasi odoo. Untuk caranya bisa diikuti dari langkah yang diberikan pada proses instalasi.
 
 4. Setup database
-    Setelah menjalankan odoo, maka dilakukan setup database. Jika anda ingin menggunakan database yang telah disediakan oleh saya, maka lakukanlah restore database dengan file database yang tersedia pada folder database. Jika anda ingin menggunakan database yang sudah adapun tidak apa-apa
+    Setelah menjalankan odoo, maka dilakukan setup database. Jika anda ingin menggunakan database yang telah disediakan oleh saya, maka lakukanlah restore database dengan file database yang tersedia pada folder database. Jika anda ingin menggunakan database yang sudah adapun tidak apa-apa. Dan yang terpenting adalah pastikan odoo berjalan dengan 1 database atau terdefinisi pada odoo.conf atau pada saat menjalankan/run odoo
 
 5. Install Modul
     Jika anda menggunakan database yang telah saya sediakan, maka anda tidak perlu menginstall modul. Jika tidak, maka anda dapat menginstall modul di menu Apps dan install modul yang bernama room_module

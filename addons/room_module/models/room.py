@@ -39,6 +39,46 @@ class RoomReservation(models.Model):
     )
     notes = fields.Text(string='Catatan Pemesanan')
     
+    def init(self):
+        print("here")
+        sql_command =  """
+            -- Drop the trigger if it exists
+            DROP TRIGGER IF EXISTS reservation_overlap_check ON room_reservation;
+
+            -- Drop the function if it exists
+            DROP FUNCTION IF EXISTS check_reservation_overlap;
+
+            -- Create or replace the function
+            CREATE OR REPLACE FUNCTION check_reservation_overlap()
+            RETURNS TRIGGER AS $$
+            BEGIN
+                -- Check for overlapping reservations
+                IF EXISTS (
+                    SELECT 1
+                    FROM room_reservation r2
+                    WHERE r2.room_id = NEW.room_id
+                    AND r2.id != NEW.id
+                    AND r2.state != 'cancel'
+                    AND (
+                        (NEW.start_date BETWEEN r2.start_date AND r2.end_date)
+                        OR (NEW.end_date BETWEEN r2.start_date AND r2.end_date)
+                    )
+                ) THEN
+                    RAISE EXCEPTION 'The reservation overlaps with an existing reservation.';
+                END IF;
+                RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+
+            -- Create the trigger
+            CREATE TRIGGER reservation_overlap_check
+            BEFORE INSERT OR UPDATE ON room_reservation
+            FOR EACH ROW
+            EXECUTE FUNCTION check_reservation_overlap();
+
+            """
+        self.env.cr.execute(sql_command)
+    
     @api.onchange('start_date', 'end_date')
     def _onchange_dates(self):
         if self.start_date and self.end_date:
@@ -50,6 +90,12 @@ class RoomReservation(models.Model):
                         'message': "Tanggal akhir tidak dapat lebih awal dari tanggal mulai. Tanggal akhir telah disesuaikan.",
                     }
                 }
+                
+    _sql_constraints = [
+    ('name_unique', 'unique(name)', 'The reservation number must be unique.'),
+    ('start_end_dates_check', 
+     'CHECK (start_date < end_date)', 
+     'The start date must be earlier than the end date.')]
 
     @api.constrains('start_date', 'end_date', 'room_id', 'state')
     def _check_room_reservation_dates(self):

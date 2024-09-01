@@ -28,10 +28,11 @@
         'views/room_reservation_views.xml',
         'views/room_views.xml',
         'views/views.xml',
-        
+    
         'data/room_reservation_seq.xml',
         'data/inject_data_dummy.xml',
     ],
+    # 'pre_init_hook': 'pre_init_hook',
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
