@@ -1,0 +1,76 @@
+<odoo>
+    <data noupdate="1">
+        <record id="room_1" model="room.room">
+            <field name="name">Ruang Meeting 1</field>
+            <field name="room_type">kecil</field>
+            <field name="room_loc">one_a</field>
+            <field name="room_photo" type="base64" file="room_module/src/img_1.jpg"/>
+            <field name="room_capacity">10</field>
+            <field name="notes">Ruang meeting dengan kapasitas kecil.</field>
+        </record>
+        <record id="room_2" model="room.room">
+            <field name="name">Aula Utama</field>
+            <field name="room_type">aula</field>
+            <field name="room_loc">two_b</field>
+            <field name="room_photo" type="base64" file="room_module/src/img_2.jpg"/>
+            <field name="room_capacity">100</field>
+            <field name="notes">Aula besar untuk acara resmi.</field>
+        </record>
+        <record id="room_3" model="room.room">
+            <field name="name">Ruang Konferensi</field>
+            <field name="room_type">besar</field>
+            <field name="room_loc">one_c</field>
+            <field name="room_photo" type="base64" file="room_module/src/img_3.jpg"/>
+            <field name="room_capacity">50</field>
+            <field name="notes">Ruang konferensi dengan fasilitas lengkap.</field>
+        </record>
+        <record id="reservation_1" model="room.reservation">
+            <field name="room_id" ref="room_module.room_1"/>
+            <field name="pemesan">John Doe</field>
+            <field name="start_date">2024-09-01 08:00:00</field>
+            <field name="end_date">2024-09-01 12:00:00</field>
+            <field name="state">done</field>
+            <field name="notes">Meeting internal perusahaan.</field>
+        </record>
+        <record id="reservation_2" model="room.reservation">
+            <field name="room_id" ref="room_module.room_2"/>
+            <field name="pemesan">Jane Smith</field>
+            <field name="start_date">2024-09-02 09:00:00</field>
+            <field name="end_date">2024-09-02 17:00:00</field>
+            <field name="state">progress</field>
+            <field name="notes">Acara pelatihan teknis.</field>
+        </record>
+        <record id="reservation_3" model="room.reservation">
+            <field name="room_id" ref="room_module.room_3"/>
+            <field name="pemesan">Alice Johnson</field>
+            <field name="start_date">2024-09-03 13:00:00</field>
+            <field name="end_date">2024-09-03 18:00:00</field>
+            <field name="state">draft</field>
+            <field name="notes">Persiapan konferensi besar.</field>
+        </record>
+        <record id="reservation_4" model="room.reservation">
+            <field name="room_id" ref="room_module.room_1"/>
+            <field name="pemesan">Michael Brown</field>
+            <field name="start_date">2024-09-04 08:00:00</field>
+            <field name="end_date">2024-09-04 10:00:00</field>
+            <field name="state">done</field>
+            <field name="notes">Diskusi proyek penting.</field>
+        </record>
+        <record id="reservation_5" model="room.reservation">
+            <field name="room_id" ref="room_module.room_2"/>
+            <field name="pemesan">Emily Davis</field>
+            <field name="start_date">2024-09-05 10:00:00</field>
+            <field name="end_date">2024-09-05 14:00:00</field>
+            <field name="state">draft</field>
+            <field name="notes">Sesi brainstorming dengan tim.</field>
+        </record>
+        <record id="reservation_6" model="room.reservation">
+            <field name="room_id" ref="room_module.room_3"/>
+            <field name="pemesan">David Wilson</field>
+            <field name="start_date">2024-09-06 08:00:00</field>
+            <field name="end_date">2024-09-06 12:00:00</field>
+            <field name="state">cancel</field>
+            <field name="notes">Pemesanan dibatalkan oleh pemesan.</field>
+        </record>
+    </data>
+</odoo>

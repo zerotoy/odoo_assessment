@@ -1,0 +1,67 @@
+<odoo>
+<data>
+    <record id="view_room_reservation_form" model="ir.ui.view">
+        <field name="name">room.reservation.form</field>
+        <field name="model">room.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Room Reservation">
+                <header>
+                    <!-- Buttons and other header elements can go here -->
+                    <button name="action_progress"
+                        string="Proses Pemesanan"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible':['|',('state','!=','draft'),('id','=',False)]}"/>
+                    <button name="action_cancel"
+                        string="Batalkan"
+                        type="object"
+                        class="btn-danger"
+                        confirm="Apakah anda yakin untuk membatalkan reservasi?"
+                        attrs="{'invisible':['|',('state','!=','draft'),('id','=',False)]}"/>
+                    <button name="action_done"
+                        string="Selesai"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible':[('state','!=','progress')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,progress,done"/>
+                </header>
+                <sheet>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" attrs="{'invisible':[('id','=',False)]}"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="start_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="end_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="pemesan" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="notes" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_room_reservation_tree" model="ir.ui.view">
+        <field name="name">room.reservation.tree</field>
+        <field name="model">room.reservation</field>
+        <field name="arch" type="xml">
+            <tree string="Room Reservations">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="pemesan"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"  widget="badge"
+                decoration-danger="state == 'cancel'" 
+                decoration-success="state == 'done'" 
+                decoration-muted="state == 'draft'" 
+                decoration-info="state == 'progress'"/>
+            </tree>
+        </field>
+    </record>
+</data>
+</odoo>

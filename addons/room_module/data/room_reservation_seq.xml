@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="seq_room_reservation" model="ir.sequence">
+            <field name="name">Default Room Reservation Name Seq</field>
+            <field name="code">room.reservation</field>
+            <field name="prefix">ROOM-RES/%(month)s/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
